@@ -11,6 +11,10 @@ const ctx = cnv.getContext(`2d`);
 
 const draw_frame = (ms) => {
   ctx.clearRect(0, 0, cnv.width, cnv.height);
+  ctx.fillStyle = `#1bb1a3`;
+  ctx.fillRect(0, 0, cnv.width, cnv.height);
+
+  ctx.fillRect(350, 300, 500, 300);
   // Set line width
   ctx.lineWidth = 12;
   ctx.fillStyle = ` #ffeb03`;
