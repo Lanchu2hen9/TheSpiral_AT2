@@ -16,7 +16,7 @@ const buttons = [
     y: 100,
     width: 300,
     height: 40,
-    path: "/public/ExperiementFiles/index2.html", // Path for button 1
+    path: "/ExperiementFiles/index2.html", // Path for button 1
   },
   {
     text: "Btn2",
