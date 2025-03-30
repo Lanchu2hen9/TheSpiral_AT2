@@ -54,6 +54,15 @@ const draw_frame = (ms) => {
   // ctx.ellipse(x-coord, y-coord, HoriThiccness, VerticalThiccness, 0, 0, Math.PI * 2);
   ctx.closePath();
 
+  ctx.fillStyle = `#1bb1a3`;
+  ctx.fillRect(380, 330, 140, 120);
+  ctx.lineWidth = 10;
+  ctx.strokeRect(380, 330, 140, 120);
+
+  ctx.fillStyle = `#1bb1a3`;
+  ctx.fillRect(685, 330, 140, 120);
+  ctx.strokeRect(685, 330, 140, 120);
+
   requestAnimationFrame(draw_frame);
 };
 
