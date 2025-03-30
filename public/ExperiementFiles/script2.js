@@ -7,37 +7,50 @@ cnv.width = innerWidth;
 cnv.height = innerHeight;
 
 const ctx = cnv.getContext(`2d`);
+// Canvas setup ends here.
 
 const draw_frame = (ms) => {
-  ctx.fillRect(0, 0, innerWidth, innerHeight);
-
-  const cnv = document.createElement(`canvas`);
-
-  cnv.width = 400;
-  cnv.height = 400;
-
-  document.body.appendChild(cnv);
-  const ctx = cnv.getContext(`2d`);
-  // Canvas setup ends here.
-
-  ctx.fillRect(0, 0, cnv.width, cnv.height);
-
+  ctx.clearRect(0, 0, cnv.width, cnv.height);
   // Set line width
-  ctx.lineWidth = 10;
+  ctx.lineWidth = 12;
+  ctx.fillStyle = ` #ffeb03`;
+  ctx.fillRect(350, 300, 500, 300);
+  ctx.strokeStyle = "#f78a21";
+  ctx.strokeRect(350, 300, 500, 300);
+  // ctx.strokeRect(x-value, y-value, width, height);
 
-  // Wall
-  ctx.strokeRect(75, 140, 150, 110);
-
-  // Door
-  ctx.fillRect(130, 190, 40, 60);
-
-  // Roof
+  ctx.fillStyle = `#f78a21`;
   ctx.beginPath();
-  ctx.moveTo(50, 140);
-  ctx.lineTo(150, 60);
-  ctx.lineTo(250, 140);
+  ctx.moveTo(351, 297);
+  ctx.lineTo(600, 100);
+  ctx.lineTo(852, 297);
+  ctx.fill();
   ctx.closePath();
+  ctx.strokeStyle = "#f78a21";
   ctx.stroke();
+
+  ctx.fillStyle = `#ffeb03`;
+
+  ctx.beginPath();
+  ctx.moveTo(540, 450);
+  ctx.lineTo(660, 450);
+  ctx.lineTo(660, 600);
+  ctx.lineTo(540, 600);
+  ctx.fill();
+  ctx.closePath();
+  ctx.strokeStyle = `#f78a21`;
+  ctx.stroke();
+
+  ctx.fillStyle = `#f78a21`;
+
+  ctx.beginPath();
+  ctx.ellipse(639, 522, 7, 7, 0, 0, Math.PI * 2);
+  ctx.lineWidth = 1;
+  ctx.fill();
+  // ctx.ellipse(x-coord, y-coord, HoriThiccness, VerticalThiccness, 0, 0, Math.PI * 2);
+  ctx.closePath();
+
+  requestAnimationFrame(draw_frame);
 };
 
 draw_frame();
