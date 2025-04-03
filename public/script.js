@@ -11,7 +11,7 @@ const ctx = cnv.getContext(`2d`);
 // Array to store buttons and their properties (text, coordinates, target path)
 const buttons = [
   {
-    text: "Week 4a Task 1",
+    text: "Week 4a Task",
     x: 100,
     y: 100,
     width: 300,
@@ -19,7 +19,7 @@ const buttons = [
     path: "/ExperiementFiles/index2.html", // Path for button 1
   },
   {
-    text: "Btn2",
+    text: "Week 4b Task",
     x: 100,
     y: 200,
     width: 300,
