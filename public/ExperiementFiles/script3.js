@@ -14,12 +14,14 @@ const draw = (i) => ctx.drawImage(i, 0, 0, cnv.width, cnv.height);
 
 const img = new Image();
 img.onload = () => {
+  console.log(`Image loaded`);
   cnv.height = (cnv.width * img.height) / img.width;
   draw(img);
   ImgData = cnv.toDataURL(`image/jpeg`);
   add_glitch();
 };
-img.src = `./ExperiementFiles/img/LannyGlasses.JPG`;
+img.src = `./img/LannyGlasses.JPG`;
+// It was a path issue lanchu.
 
 const RandInt = (max) => Math.floor(Math.random() * max);
 
