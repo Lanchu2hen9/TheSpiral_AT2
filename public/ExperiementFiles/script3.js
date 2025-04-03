@@ -23,11 +23,11 @@ img.src = `./ExperiementFiles/img/LannyGlasses.JPG`;
 
 const RandInt = (max) => Math.floor(Math.random() * max);
 
-const Glitchify = (data, chunk_max, repeats) => {
+const Glitchify = (ImgData, chunk_max, repeats) => {
   const ChunkSize = RandInt(chunk_max / 4) * 4;
-  const i = RandInt(data.length - 24 - ChunkSize, data.length) + 24;
-  const front = data.slice(0, i);
-  const back = data.slice(i + ChunkSize, data.length);
+  const i = RandInt(ImgData.length - 24 - ChunkSize, ImgData.length) + 24;
+  const front = ImgData.slice(0, i);
+  const back = ImgData.slice(i + ChunkSize, ImgData.length);
   const result = front + back;
   return repeats == 0 ? result : Glitchify(result, chunk_max, repeats - 1);
 };
@@ -51,7 +51,7 @@ const add_glitch = () => {
 let is_glitching = false;
 let glitch_i = 0;
 
-const draw_frame = () => {
+const draw_frame = (ms) => {
   if (is_glitching) draw(glitch_arr[glitch_i]);
   else draw(img);
 
