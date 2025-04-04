@@ -37,6 +37,8 @@ img.onload = () => {
 img.src = `./img/LannyGlasses.JPG`;
 // Get the (hopefully) correct source of the image. (The path)
 
+//img.src = `./img/LannyGlasses.JPG`;
+
 const RandInt = (max) => Math.floor(Math.random() * max);
 //tl;dr, RandInt is the randomiser.
 
@@ -113,7 +115,10 @@ const add_glitch = () => {
     else draw_frame();
     // Then start the animation.
   };
-  img.src = Glitchify(ImgData, 96, 10);
+
+  //img.src = Glitchify(ImgData, 96, 26);
+  img.src = Glitchify(ImgData, 96, 7);
+
   // img.src =
   // Glitchify(ImgData, the maximum ChunkSize of the image
   // that you want to be glitched, The inital amount of repeats);
@@ -133,6 +138,7 @@ const draw_frame = (ms) => {
   else draw(img);
   // If not glitching, draw the original image.
 
+  //const prob = is_glitching ? 0.1 : 0.05;
   const prob = is_glitching ? 0.05 : 0.02;
   // Probability of the image glitching.
 
