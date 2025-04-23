@@ -12,13 +12,25 @@ const ctx = cnv.getContext("2d");
 
 let stars = [];
 
-function random(min, max) {
-  if (max === undefined) {
-    return Math.random() * min;
-  } else {
-    return Math.random() * (max - min) + min;
+function random(arg1, arg2) {
+  if (arguments.length == 1) {
+    const max = arg1;
+    return Math.random() * max;
+  } else if (arguments.length == 2) {
+    const min = arg1;
+    const max = arg2;
+    const range = max - min;
+    return Math.random() * range + min;
   }
 }
+
+// function random(min, max) {
+//   if (max === undefined) {
+//     return Math.random() * min;
+//   } else {
+//     return Math.random() * (max - min) + min;
+//   }
+// }
 
 class Star {
   constructor(x, y, size, speed) {
