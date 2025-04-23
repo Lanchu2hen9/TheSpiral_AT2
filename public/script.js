@@ -27,7 +27,7 @@ const buttons = [
     path: "/ExperiementFiles/index3.html", // Path for button 2
   },
   {
-    text: "Btn3",
+    text: "/ExperiementFiles/AT2-V1.0.html",
     x: 100,
     y: 300,
     width: 300,
