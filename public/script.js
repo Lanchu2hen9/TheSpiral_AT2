@@ -27,12 +27,12 @@ const buttons = [
     path: "/ExperiementFiles/index3.html", // Path for button 2
   },
   {
-    text: "/ExperiementFiles/AT2-V1.0.html",
+    text: "AT2 Task",
     x: 100,
     y: 300,
     width: 300,
     height: 40,
-    path: "#", // Path for button 3
+    path: "/ExperiementFiles/AT2-V1.0.html", // Path for button 3
   },
 ];
 
