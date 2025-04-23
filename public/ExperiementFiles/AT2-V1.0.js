@@ -29,10 +29,27 @@ class Star {
     this.speed = random(1, 3);
   }
   show() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI + 2);
+
+    const arms = 8;
+    for (let i = 0; i < arms; i++) {
+      const angle = ((Math.PI * 2) / arms) * i;
+      const x = Math.cos(angle) * this.size;
+      const y = Math.sin(angle) * this.size;
+      ctx.moveTo(0, 0);
+      ctx.lineTo(x, y);
+    }
     ctx.fillStyle = "white";
-    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.size, 0, Math.PI + 2);
+    // ctx.fillStyle = "white";
+    // ctx.fill();
   }
 
   update() {
