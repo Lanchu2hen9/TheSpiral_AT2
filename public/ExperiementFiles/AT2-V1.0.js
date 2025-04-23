@@ -5,9 +5,6 @@ const cnv = document.getElementById("cnv_element");
 cnv.width = innerWidth;
 cnv.height = innerHeight;
 
-//cnv.width = 600;
-// cnv.height = 400;
-
 const ctx = cnv.getContext("2d");
 
 let stars = [];
@@ -24,19 +21,11 @@ function random(arg1, arg2) {
   }
 }
 
-// function random(min, max) {
-//   if (max === undefined) {
-//     return Math.random() * min;
-//   } else {
-//     return Math.random() * (max - min) + min;
-//   }
-// }
-
 class Star {
   constructor(x, y, size, speed) {
     this.x = random(innerWidth);
     this.y = random(innerHeight);
-    this.size = random(1, 5);
+    this.size = random(1.5, 6.5);
     this.speed = random(1, 3);
   }
   show() {
