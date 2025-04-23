@@ -12,6 +12,40 @@ const ctx = cnv.getContext("2d");
 
 let stars = [];
 
+function random(min, max) {
+  if (max === undefined) {
+    return Math.random() * min;
+  } else {
+    return Math.random() * (max - min) + min;
+  }
+}
+
+class Star {
+  constructor(x, y, size, speed) {
+    this.x = random(innerWidth);
+    this.y = random(innerHeight);
+    this.size = random(1, 5);
+    this.speed = random(1, 3);
+  }
+  show() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI + 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
+  }
+
+  update() {
+    // Should technically move the stars.
+    this.x -= this.speed;
+
+    // Should reset the stars positions when they go off screen.
+    if (this.x < -this.size) {
+      this.x = innerWidth + this.size;
+      this.y = random(innerHeight);
+    }
+  }
+}
+
 function setup() {
   for (let i = 0; i < 100; i++) {
     stars.push(new Star());
@@ -35,32 +69,9 @@ const draw_frame = (ms) => {
   requestAnimationFrame(draw_frame);
 };
 
+setup();
+
 requestAnimationFrame(draw_frame);
-
-class Star {
-  constructor(x, y, size, speed) {
-    this.x = random(innerWidth);
-    this.y = random(innerHeight);
-    this.size = random(1, 5);
-    this.speed = random(1, 3);
-  }
-  show() {
-    noStroke();
-    fill(255);
-    ellipse(this.x, this.y, this.size);
-  }
-
-  update() {
-    // Should technically move the stars.
-    this.x += this.speed;
-
-    // Should reset the stars positions when they go off screen.
-    if (this.x < -this.size) {
-      this.x = innerWidth + this.size;
-      this.y = random(innerHeight);
-    }
-  }
-}
 
 // draw_frame();
 
