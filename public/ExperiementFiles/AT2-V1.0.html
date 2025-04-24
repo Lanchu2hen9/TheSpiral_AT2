@@ -5,5 +5,12 @@
 
 <body>
   <canvas id="cnv_element"></canvas>
+  <script type="module">
+    import SimplexNoise from "https://cdn.jsdelivr.net/npm/simplex-noise@3.0.0/dist/esm/simplex-noise.js";
+    import { run } from "./AT2-V1.0.js";
+
+    const simplex = new SimplexNoise();
+    run(simplex);
+  </script>
   <script src="AT2-V1.0.js"></script>
 </body>
