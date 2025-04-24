@@ -25,7 +25,7 @@ class Star {
   constructor(x, y, size, speed) {
     this.x = random(innerWidth);
     this.y = random(innerHeight);
-    this.size = random(1.5, 6.5);
+    this.size = random(1, 8);
     this.speed = random(1, 3);
   }
   show() {
@@ -41,7 +41,7 @@ class Star {
       ctx.moveTo(0, 0);
       ctx.lineTo(x, y);
     }
-    ctx.fillStyle = "white";
+    ctx.strokeStyle = "white";
     ctx.lineWidth = 1;
     ctx.stroke();
     ctx.restore();
