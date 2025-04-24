@@ -11,14 +11,36 @@ let stars = [];
 // Creates an array to store the Star objects.
 
 function random(arg1, arg2) {
+  // Defines two arguments array parameters
+  //  within the function random.
+
   if (arguments.length == 1) {
+    // If the the length of the arguments array
+    // is equals roughly to 1.
+
     const max = arg1;
+    // Then define max as arg1.
+
     return Math.random() * max;
+    // Stops the function from executing
+    // and gives a random number
+    // between 0 and max.
   } else if (arguments.length == 2) {
+    // If the length of the arguments arrays
+    // is roughly equal to 2.
+
     const min = arg1;
+    // Define min as arg1.
+
     const max = arg2;
+    // Define max as arg2.
+
     const range = max - min;
+    // Define range as max - min.
+
     return Math.random() * range + min;
+    // Stops the function from executing,
+    // and outputs a random number.
   }
 }
 // In general, this is the randomiser function
@@ -28,63 +50,120 @@ class Star {
   constructor(x, y, size, speed) {
     this.x = random(innerWidth);
     this.y = random(innerHeight);
+    // (this.x, this.y) are the "centre point",
+    // of the star.
+
     this.size = random(1, 8);
-    this.speed = random(1, 3);
+    this.speed = random(1, 2.5);
   }
+  // Constructor function, that defines
+  // the instance variables of the Star object.
+
   show() {
     ctx.save();
+    // Save the current state of the shape.
+
     ctx.translate(this.x, this.y);
+    // translate the shape, by this.x
+    // and this.y as defined in the constructor.
+
     ctx.beginPath();
+    // Start drawing the shape.
 
     const arms = 8;
-    for (let i = 0; i < arms; i++) {
-      const angle = ((Math.PI * 2) / arms) * i;
-      const x = Math.cos(angle) * this.size;
-      const y = Math.sin(angle) * this.size;
-      ctx.moveTo(0, 0);
-      ctx.lineTo(x, y);
-    }
-    ctx.strokeStyle = "white";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    ctx.restore();
+    // The star shape has 8 arms.
 
-    // ctx.beginPath();
-    // ctx.arc(this.x, this.y, this.size, 0, Math.PI + 2);
-    // ctx.fillStyle = "white";
-    // ctx.fill();
+    for (let i = 0; i < arms; i++) {
+      // Count from 0 to arms, where
+      // arms the max number of arms
+      // the star can have.
+
+      const angle = ((Math.PI * 2) / arms) * i;
+      // The angle between each of the arms,
+      // is 2π ÷ no. of arms.
+
+      const x = Math.cos(angle) * this.size;
+      // Start drawing the star at x-coordinate,
+      // which is cos(angle) * size of the Star.
+
+      const y = Math.sin(angle) * this.size;
+      // Start drawing the star at x-coordinate,
+      // which is cos(angle) * size of the Star.
+
+      ctx.moveTo(0, 0);
+      // Move the drawing cursor to the "centre" of the star.
+
+      ctx.lineTo(x, y);
+      // Draws each arm of the Star.
+    }
+
+    ctx.strokeStyle = "white";
+    // Make the lines drawn be white.
+
+    ctx.lineWidth = 1;
+    // The thicccness of the lines drawn is 1.
+    ctx.stroke();
+    // Defines the colour of the lines drawn.
+
+    ctx.restore();
+    // Restores the start state of the shape.
+    // So basically, it spews out another Star,
+    // for the update() function to move.
   }
 
   update() {
-    // Should technically move the stars.
     this.x -= this.speed;
+    // Moves the Star.
 
-    // Should reset the stars positions when they go off screen.
+    // Resets the Star positions when they go off screen.
     if (this.x < -this.size) {
+      // If the centre of the star is less than the right-
+      // side of the Star, then the star is off screen.
+
       this.x = innerWidth + this.size;
+      // Then yeet it to the right side of the screen.
+
       this.y = random(innerHeight);
+      // Places Star on a random position on the y-axis,
+      // of the canvas.
     }
   }
 }
+// This is the Star object.
 
 function setup() {
   for (let i = 0; i < 100; i++) {
+    // For one star every time, i interates from
+    // 0 to 100.
+
     stars.push(new Star());
+    // Push the created Star objects into the stars array.
   }
   requestAnimationFrame(draw_frame);
+  // Calls the draw_frame function.
 }
 
 const draw_frame = (ms) => {
   ctx.fillStyle = "black";
-  //   ctx.fillStyle = "grey";
+  // Set the background colour to black.
+
   ctx.fillRect(0, 0, innerWidth, innerHeight);
+  // Fills the entire canvas with black. And resizes the canvas to be
+  // the same size as the window.
 
   const seconds = ms / 1000;
+  // Converts the milliseconds to seconds.
+
   //   console.log(seconds.toFixed(2));
 
   for (let i = 0; i < stars.length; i++) {
+    // For every star in the stars array.
+
     stars[i].show();
+    // Draw the stars.
+
     stars[i].update();
+    // Move the stars's position.
   }
 
   requestAnimationFrame(draw_frame);
