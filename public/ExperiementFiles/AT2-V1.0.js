@@ -8,6 +8,7 @@ cnv.height = innerHeight;
 const ctx = cnv.getContext("2d");
 
 let stars = [];
+// Creates an array to store the Star objects.
 
 function random(arg1, arg2) {
   if (arguments.length == 1) {
@@ -20,6 +21,8 @@ function random(arg1, arg2) {
     return Math.random() * range + min;
   }
 }
+// In general, this is the randomiser function
+// that randomises values inputted into it.
 
 class Star {
   constructor(x, y, size, speed) {
