@@ -63,7 +63,7 @@ function run(simplex) {
       // (this.x, this.y) are the "centre point",
       // of the star.
 
-      this.BaseSize = random(1, 8);
+      this.BaseSize = random(1.5, 9);
       // Determines the size of the star, from
       // size 1 start to size 8 star.
 
