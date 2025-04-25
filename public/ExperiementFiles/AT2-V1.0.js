@@ -20,6 +20,7 @@ function run(simplex) {
   let stars = [];
   // Creates an array to store the Star objects.
 
+  let IsClicked = false;
   let StarBrightness = 170;
   let FlickerSize = 2;
 
@@ -187,22 +188,30 @@ function run(simplex) {
         // of the canvas.
       }
     }
-    OnUserClick() {
-      cnv.addEventListener("mousedown", (event) => {
-        StarBrightness = 340;
-        FlickerSize = 10;
-      });
-
-      // Within this instance method, we want to have it
-      // so that when the user clicks the this.r, this.g, this.b
-      // changes/brightens. Specifically, the "170" value.\
-
-      // We also want either fractual trees or "lightning" to shoot
-      // of the point in which the user clicks, so we might need to use
-      //mouseX and mouseY to get the coordinates of the mouse click.
-    }
   }
   // This is the Star object.
+
+  function OnUserClick() {
+    cnv.addEventListener("mousedown", () => {
+      IsClicked = true;
+      StarBrightness = 360;
+      FlickerSize = 370;
+
+      setTimeout(() => {
+        IsClicked = false;
+        StarBrightness = 170;
+        FlickerSize = 2;
+      }, 1700);
+    });
+
+    // Within this instance method, we want to have it
+    // so that when the user clicks the this.r, this.g, this.b
+    // changes/brightens. Specifically, the "170" value.\
+
+    // We also want either fractual trees or "lightning" to shoot
+    // of the point in which the user clicks, so we might need to use
+    //mouseX and mouseY to get the coordinates of the mouse click.
+  }
 
   function setup() {
     for (let i = 0; i < 100; i++) {
@@ -212,6 +221,8 @@ function run(simplex) {
       stars.push(new Star());
       // Push the created Star objects into the stars array.
     }
+    OnUserClick();
+
     requestAnimationFrame(draw_frame);
     // Calls the draw_frame function.
   }
@@ -237,8 +248,6 @@ function run(simplex) {
 
       stars[i].update();
       // Move the stars's position.
-
-      stars[i].OnUserClick();
     }
 
     requestAnimationFrame(draw_frame);
