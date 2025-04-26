@@ -374,7 +374,7 @@ const draw_frame = (ms) => {
 
 //#region LightningYeeter Function:
 function LightningYeeter() {
-  requestAnimationFrame(() => LightningYeeter(ctx));
+  // requestAnimationFrame(() => LightningYeeter(ctx));
   ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
   ctx.fillRect(0, 0, innerWidth, innerHeight);
 
@@ -383,7 +383,6 @@ function LightningYeeter() {
     Zeus[i].draw(ctx);
     if (Zeus[i].isDead()) Zeus.splice(i, 1);
   }
-  // ctx.globalAlpha = 1;
 }
 
 //#region OnUserClick Function
