@@ -70,6 +70,7 @@ class Star {
   show() {
     ctx.save();
     // Save the current state of the shape.
+    ctx.globalAlpha = 1;
 
     ctx.translate(this.x, this.y);
     // translate the shape, by this.x
@@ -137,7 +138,6 @@ class Star {
       // Draws each arm of the Star.
     }
 
-    ctx.globalAlpha = 1;
     ctx.strokeStyle = `rgb(${this.r}, ${this.g}, ${this.b})`;
     // Make the lines drawn be white.
 
@@ -175,12 +175,22 @@ class Star {
 
 //#region Lightning Object
 class LigthningStrikes {
-  constructor(x, y, length, depth, alphas) {
+  constructor(x, y, length, generation, alphas) {
     this.x = x;
-    this.y = y;
-    this.length = length;
+    // The x-coordinate of where the Lightning strike
+    // starts from.
 
-    this.depth = depth;
+    this.y = y;
+    // The y-coordinate of where the Lightning strike
+    // starts from.
+
+    this.length = length;
+    // How long the Lightning strike is.
+
+    this.generation = generation;
+    // Contains the generation of the Lightning strike.
+    // And where in the lightning the bolt branches off
+    // from.
 
     this.angle = Math.random() * Math.PI * 2;
     // Chooses a random angle for the lightning strike.
@@ -189,42 +199,74 @@ class LigthningStrikes {
     // The transparency of the lightning strike.
 
     this.child = null;
+    // Placeholder to hold the generate child lightning
+    // strikes
 
     this.createChild();
+    // Create the a secondary lightning strike, branching
+    // off from the main lightning strike.
   }
 
   createChild() {
-    if (this.length > 10 && this.depth < 4) {
+    if (this.length > 10 && this.generation < 4) {
+      // If the length of the lightning strike
+      // is more than 10 pixels, then create a child,
+      // stop after the 4th generation is born.
+
+      //Finds the end of each newly created lightning strike,
+      // and prepares the (NewX, New Y) coordinates to create
+      // the next lightning strike.
       const NewX = this.x + Math.cos(this.angle) * this.length;
+      // The new x-coordinate of the child lightning strike.
+
       const NewY = this.y + Math.sin(this.angle) * this.length;
+      // The new y-coordinate of the child lightning strike.
+
       this.child = new LigthningStrikes(
         NewX,
         NewY,
         this.length * 0.6,
-        this.depth + 1
+        this.generation + 1
       );
+      // Recursively creates a child lightning strike.
     }
   }
   update() {
     this.alphas -= 0.02;
+    // Makes the lightning more transparent over time.
 
     if (this.child) this.child.update();
+    // Also fades away the child lightning strike.
   }
   draw(ctx) {
     if (this.alphas <= 0) return;
+    // If the lightning strike is transparent,
+    // then don't bother drawing it.
 
     ctx.globalAlpha = this.alphas;
 
-    ctx.strokeStyle = `rgba(255, 255, ${this.alphas})`;
+    ctx.strokeStyle = `rgba(255, 255, 225, ${this.alphas})`;
+
     ctx.lineWidth = 2;
+
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
+    // the starting drawing point of the lightning strike.
+    // to the specified coordinates.
+
     const EndX = this.x + Math.cos(this.angle) * this.length;
+    // Stop drawing the lightning strike at this EndX coordinate.
+
     const EndY = this.y + Math.sin(this.angle) * this.length;
+    // Stop drawing the lightning strike at this EndY coordinate.
+
     ctx.lineTo(EndX, EndY);
+    // Draw the line from the starting point to the end point.
+
     ctx.stroke();
 
     if (this.child) this.child.draw(ctx);
+    // Draws the child lightning strike rescursively.
 
     ctx.globalAlpha = 1;
   }
@@ -232,7 +274,6 @@ class LigthningStrikes {
     return this.alphas <= 0;
   }
 }
-// requestAnimationFrame(draw_frame);
 //#endregion
 
 // #endregions
@@ -304,6 +345,8 @@ const draw_frame = (ms) => {
 
   //   console.log(seconds.toFixed(2));
 
+  ctx.globalAlpha = 1;
+
   for (let i = 0; i < stars.length; i++) {
     // For every star in the stars array.
 
@@ -312,6 +355,19 @@ const draw_frame = (ms) => {
 
     stars[i].update();
     // Move the stars's position.
+  }
+
+  for (let i = Zeus.length - 1; i >= 0; i--) {
+    Zeus[i].update();
+    // Update the position of the lightning strikes.
+
+    Zeus[i].draw(ctx);
+    // Draw the lightning strikes.
+
+    if (Zeus[i].isDead()) {
+      Zeus.splice(i, 1);
+    }
+    // If the lightning strike is dead, remove it from the array.
   }
 
   requestAnimationFrame(draw_frame);
