@@ -231,14 +231,16 @@ class LigthningStrikes {
     }
   }
   update() {
-    this.alphas -= 0.02;
+    this.alphas -= 0.00925;
     // Makes the lightning more transparent over time.
+
+    console.log(`Alpha: ${this.alphas}`); // Log the alpha value for debugging
 
     if (this.child) this.child.update();
     // Also fades away the child lightning strike.
   }
   draw(ctx) {
-    if (this.alphas <= 0) return;
+    if (this.alphas < 0) return;
     // If the lightning strike is transparent,
     // then don't bother drawing it.
 
@@ -246,7 +248,7 @@ class LigthningStrikes {
 
     ctx.strokeStyle = `rgba(255, 255, 225, ${this.alphas})`;
 
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 3;
 
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
@@ -375,7 +377,7 @@ const draw_frame = (ms) => {
 //#region LightningYeeter Function:
 function LightningYeeter() {
   // requestAnimationFrame(() => LightningYeeter(ctx));
-  ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
   ctx.fillRect(0, 0, innerWidth, innerHeight);
 
   for (let i = Zeus.length - 1; i >= 0; i--) {
@@ -395,7 +397,7 @@ function OnUserClick() {
     StarBrightness = 360;
     FlickerSize = 370;
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 15; i++) {
       Zeus.push(new LigthningStrikes(x, y, 100, 0));
     }
 
@@ -405,7 +407,7 @@ function OnUserClick() {
       IsClicked = false;
       StarBrightness = 170;
       FlickerSize = 2;
-    }, 1700);
+    }, 1000);
   });
 
   // Within this instance method, we want to have it
