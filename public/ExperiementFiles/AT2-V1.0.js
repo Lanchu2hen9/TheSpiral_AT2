@@ -70,7 +70,6 @@ class Star {
   show() {
     ctx.save();
     // Save the current state of the shape.
-    ctx.globalAlpha = 1;
 
     ctx.translate(this.x, this.y);
     // translate the shape, by this.x
@@ -185,7 +184,7 @@ class LigthningStrikes {
     // starts from.
 
     this.length = length;
-    // How long the Lightning strike is.
+    // How long the Lightning strike is.`
 
     this.generation = generation;
     // Contains the generation of the Lightning strike.
@@ -243,7 +242,7 @@ class LigthningStrikes {
     // If the lightning strike is transparent,
     // then don't bother drawing it.
 
-    ctx.globalAlpha = this.alphas;
+    ctx.save();
 
     ctx.strokeStyle = `rgba(255, 255, 225, ${this.alphas})`;
 
@@ -268,7 +267,7 @@ class LigthningStrikes {
     if (this.child) this.child.draw(ctx);
     // Draws the child lightning strike rescursively.
 
-    ctx.globalAlpha = 1;
+    ctx.restore();
   }
   isDead() {
     return this.alphas <= 0;
@@ -345,18 +344,6 @@ const draw_frame = (ms) => {
 
   //   console.log(seconds.toFixed(2));
 
-  ctx.globalAlpha = 1;
-
-  for (let i = 0; i < stars.length; i++) {
-    // For every star in the stars array.
-
-    stars[i].show();
-    // Draw the stars.
-
-    stars[i].update();
-    // Move the stars's position.
-  }
-
   for (let i = Zeus.length - 1; i >= 0; i--) {
     Zeus[i].update();
     // Update the position of the lightning strikes.
@@ -368,6 +355,18 @@ const draw_frame = (ms) => {
       Zeus.splice(i, 1);
     }
     // If the lightning strike is dead, remove it from the array.
+  }
+
+  ctx.globalAlpha = 1;
+
+  for (let i = 0; i < stars.length; i++) {
+    // For every star in the stars array.
+
+    stars[i].show();
+    // Draw the stars.
+
+    stars[i].update();
+    // Move the stars's position.
   }
 
   requestAnimationFrame(draw_frame);
@@ -384,6 +383,7 @@ function LightningYeeter() {
     Zeus[i].draw(ctx);
     if (Zeus[i].isDead()) Zeus.splice(i, 1);
   }
+  // ctx.globalAlpha = 1;
 }
 
 //#region OnUserClick Function
