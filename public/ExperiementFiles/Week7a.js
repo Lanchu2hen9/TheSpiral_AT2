@@ -14,6 +14,11 @@ let XSoundsStart = [];
 let XSoundsEnd = [];
 //#endregion
 
+//#region  Canvas Centre
+let CanvasCentreX = innerWidth / 2;
+let CanvasCentreY = innerHeight / 2;
+//#endregion
+
 //#region Randomiser
 function Random(arg1, arg2) {
   // Defines two arguments array parameters
@@ -51,7 +56,39 @@ function Random(arg1, arg2) {
 //#endregion
 
 // #region Setup Function
-function setup() {}
+function setup() {
+  OnUserClick();
+}
+//#endregion
+
+// #region MouseMove Function
+function MouseTracker() {
+  cnv.addEventListener("mousemove", (e) => {
+    const x = e.clientX;
+    const y = e.clientY;
+
+    let RelMouseX = mouseX - CanvasCentreX;
+    let RelMouseY = mouseY - CanvasCentreY;
+    // Flipping the "positive" y-axis of the Canvas API
+    // so that the "positive" y-axis, is UP.
+    // Ditto for the x-axis.
+  });
+}
+//#endregion
+
+// #region Click Function
+function OnUserClick() {
+  cnv.addEventListener("mousedown", (e) => {
+    const x = e.clientX;
+    const y = e.clientY;
+    console.log("The mouse was clicked on the canvas");
+    console.log("the mouse was clicked at", e.clientX, e.clientY);
+
+    // I was advised by ChatGPT to use to use mouseMove to track the mouse position
+    // in real time, as mousedown only tracks the position/snapshot of the mouse at
+    // point of click.
+  });
+}
 //#endregion
 
 // #region Draw Function
