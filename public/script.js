@@ -37,7 +37,7 @@ const buttons = [
   {
     text: "Week 7a task",
     x: 100,
-    y: 300,
+    y: 400,
     width: 300,
     height: 40,
     path: "/ExperiementFiles/Week7a.html", // Path for button 3
