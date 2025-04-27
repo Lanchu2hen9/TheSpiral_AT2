@@ -34,6 +34,14 @@ const buttons = [
     height: 40,
     path: "/ExperiementFiles/AT2-V1.0.html", // Path for button 3
   },
+  {
+    text: "Week 7a task",
+    x: 100,
+    y: 300,
+    width: 300,
+    height: 40,
+    path: "/ExperiementFiles/Week7a.html", // Path for button 3
+  },
 ];
 
 // Function to draw the frame and buttons

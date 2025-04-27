@@ -1,7 +1,5 @@
 import SimplexNoise from "https://cdn.jsdelivr.net/npm/simplex-noise@3.0.0/dist/esm/simplex-noise.js";
 
-// import { run } from "./AT2-V1.0.js";
-
 const simplex = new SimplexNoise();
 
 const noise = new SimplexNoise();
