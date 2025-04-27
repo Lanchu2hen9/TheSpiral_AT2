@@ -7,22 +7,22 @@ cnv.height = innerHeight;
 
 const ctx = cnv.getContext(`2d`);
 
+//#region Audio Clip References
+// Missions Sounds & Sound Bites ~ Launch, Morse Code, Passing Comet by DudeAwesome. (2017). Freesound. https://freesound.org/people/DudeAwesome/sounds/386068/
+// Short Wave Radio Noise 1 by zmobie. (2025). Freesound. https://freesound.org/people/zmobie/sounds/257880/
+// Shuttle to Station Sounds & Sound Bites by DudeAwesome. (2017). Freesound. https://freesound.org/people/DudeAwesome/sounds/386067/
+// atlas3q-1FM-16bit.wav by pixelmasseuse. (2025). Freesound. https://freesound.org/people/pixelmasseuse/sounds/95822/
+// Birds In The Forest by BurghRecords. (2019). Freesound. https://freesound.org/people/BurghRecords/sounds/456123/
+// wolf howle.wav by malg0isx. (2021). Freesound. https://freesound.org/people/malg0isx/sounds/567994/
+// AMBForst_Autumn.A Quiet Forest.Wind In The Pines And Birches.Pine Creaking 1_EM by newlocknew. (2024). Freesound. https://freesound.org/people/newlocknew/sounds/756754/
+// waves ocean crash on beach nearby wide big metallic sound.flac by kyles. (2018). Freesound. https://freesound.org/people/kyles/sounds/450634/
+
+//#endregion
 //#region Global Variables:
 let YSoundsStart = [];
-// YSoundsStart is an array that will hold the sound objects
-// attached to the +y-axis of the canvas.
-
 let YSoundsEnd = [];
-// YSoundsEnd is an array that will hold the sound objects
-// attached to the -y-axis of the canvas.
-
 let XSoundsStart = [];
-// XSoundsStart is an array that will hold the sound objects
-// attached to the +x-axis of the canvas.
-
 let XSoundsEnd = [];
-// XSoundsStart is an array that will hold the sound objects
-// attached to the -x-axis of the canvas.
 //#endregion
 
 //#region  Canvas Centre
@@ -33,6 +33,54 @@ let CanvasCentreX = innerWidth / 2;
 let CanvasCentreY = innerHeight / 2;
 // Calculates the "y-coordinate" centre
 // of the canvas.
+//#endregion
+
+//#region Preload Audio
+function preload() {
+  YSoundsStart = [
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/386067__dudeawesome__shuttle-to-station-sounds-sound-bites.flac"
+    ),
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/386068__dudeawesome__missions-sounds-sound-bites-launch-morse-code-passing-comet.flac"
+    ),
+  ];
+  // YSoundsStart is an array that will hold the sound objects
+  // attached to the +y-axis of the canvas.
+
+  YSoundsEnd = [
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/95822__pixelmasseuse__atlas3q-1fm-16bit.wav"
+    ),
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/59899__robinhood76__00309-crowd-2.wav"
+    ),
+  ];
+  // YSoundsEnd is an array that will hold the sound objects
+  // attached to the -y-axis of the canvas.
+  XSoundsStart = [
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/567994__malg0isx__wolf-howle.wav"
+    ),
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/456123__burghrecords__birds-in-the-forest.wav"
+    ),
+  ];
+
+  // XSoundsStart is an array that will hold the sound objects
+  // attached to the +x-axis of the canvas.
+
+  XSoundsEnd = [
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/756754__newlocknew__ambforst_autumna-quiet-forestwind-in-the-pines-and-birches.wav"
+    ),
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/450634__kyles__waves-ocean-crash-on-beach-nearby-wide-big-metallic-sound.flac"
+    ),
+  ];
+  // XSoundsStart is an array that will hold the sound objects
+  // attached to the -x-axis of the canvas.
+}
 //#endregion
 
 //#region Randomiser
@@ -78,6 +126,7 @@ function Random(arg1, arg2) {
 
 // #region Setup Function
 function setup() {
+  preload();
   OnUserClick();
   // Calls the OnUserClick function.
 
@@ -158,17 +207,25 @@ function MouseTracker() {
     // Creates variable called blendY, and assigning it the absolute value of
     // of Distance.
 
-    SoundX.volume = blendX;
-    // The volume of the audio clip is the value of blendX.
-
-    SoundY.volume = blendY;
-    // The volume of the audio clip is the value of blendY.
-
+    SoundX.pause();
+    SoundX.currentTime = 0;
     SoundX.play();
-    // Play the sound object in the SoundX variable.
 
+    SoundY.pause();
+    SoundY.currentTime = 0;
     SoundY.play();
-    // Play the sound object in the SoundX variable.
+
+    //  SoundX.volume = blendX;
+    //  // The volume of the audio clip is the value of blendX.
+
+    //  SoundY.volume = blendY;
+    //  // The volume of the audio clip is the value of blendY.
+
+    //  SoundX.play();
+    //  // Play the sound object in the SoundX variable.
+
+    //  SoundY.play();
+    //  // Play the sound object in the SoundX variable.
   });
 }
 //#endregion
@@ -176,6 +233,11 @@ function MouseTracker() {
 // #region Click Function
 function OnUserClick() {
   cnv.addEventListener("mousedown", (e) => {
+    YSoundsStart.forEach((sound) => sound.play().catch(() => {}));
+    YSoundsEnd.forEach((sound) => sound.play().catch(() => {}));
+    XSoundsStart.forEach((sound) => sound.play().catch(() => {}));
+    XSoundsEnd.forEach((sound) => sound.play().catch(() => {}));
+
     const x = e.clientX;
     const y = e.clientY;
     console.log("The mouse was clicked on the canvas");
@@ -194,7 +256,7 @@ const draw_frame = (ms) => {
   ctx.fillRect(0, 0, innerWidth, innerHeight);
 
   const seconds = ms / 1000;
-  console.log(seconds.toFixed(2));
+  //   console.log(seconds.toFixed(2));
 
   requestAnimationFrame(draw_frame);
 };
@@ -205,4 +267,9 @@ draw_frame();
 onresize = () => {
   cnv.width = innerWidth;
   cnv.height = innerHeight;
+
+  CanvasCentreX = innerWidth / 2;
+  CanvasCentreY = innerHeight / 2;
 };
+
+setup();
