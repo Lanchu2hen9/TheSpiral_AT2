@@ -20,6 +20,11 @@ let CanvasCentreY = innerHeight / 2;
 //#endregion
 
 //#region Randomiser
+
+// arg1 is the lower bound in which you want the "random"
+// content to be picked from.
+// arg2 is the upper bound in which you want the "random"
+// content to be picked from.
 function Random(arg1, arg2) {
   // Defines two arguments array parameters
   //  within the function random.
@@ -64,14 +69,53 @@ function setup() {
 // #region MouseMove Function
 function MouseTracker() {
   cnv.addEventListener("mousemove", (e) => {
-    const x = e.clientX;
-    const y = e.clientY;
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
 
     let RelMouseX = mouseX - CanvasCentreX;
+    // The horizontal distance of the mouse from the centre of the canvas.
+
     let RelMouseY = mouseY - CanvasCentreY;
+    // The vertical distance of the mouse from the centre of the canvas.
+
     // Flipping the "positive" y-axis of the Canvas API
     // so that the "positive" y-axis, is UP.
     // Ditto for the x-axis.
+
+    let MaxDistance = Math.sqrt(CanvasCentreX ** 2 + CanvasCentreY ** 2);
+    // Essentially pythagorean theorem. Where in a^2 + b^2 = c^2, a is the
+    // vertical distance (y-value, CanvasCentreY) and b is the horizontal
+    // distance (x-value, CanvasCentreX).
+
+    let XDistance = RelMouseX / CanvasCentreX;
+    let YDistance = RelMouseY / CanvasCentreY;
+
+    let SoundX =
+      XDistance >= 0
+        ? XSoundsStart[Math.floor(Random(0, XSoundsStart.length))]
+        : //Lanchu You are basically doing the following:
+          // Since XSoundsStart[i], this the identity of an index in the
+          // array
+          // You are basically saying within the identity of the "index", within the []
+          // Pick a random "index" number from 0 to the max length of the array.
+          // Then round that shit down, so that the index is a whole number and doesn't have
+          // floats.
+
+          XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];
+
+    let SoundY =
+      XDistance >= 0
+        ? YSoundsStart[Math.floor(Random(0, YSoundsStart.length))]
+        : YSoundsEnd[Math.floor(Random(0, YSoundsEnd.length))];
+
+    let blendX = Math.abs(XDistance);
+    let blendY = Math.abs(distanceY);
+
+    SoundX.volume = blendX;
+    SoundY.volume = blendY;
+
+    SoundX.play();
+    SoundY.play();
   });
 }
 //#endregion
