@@ -35,6 +35,8 @@ function run(simplex) {
   setup();
 }
 
+// Bro you need to slap the preload, and other stuff from Week7a.js for the sound here.
+
 //#region Objects:
 
 //#region Star Object
@@ -424,4 +426,22 @@ onresize = () => {
   cnv.height = innerHeight;
 };
 
-run(simplex);
+document.onpointerdown = () => {
+  const div = document.getElementById("start");
+  div.remove();
+  // Sound play logic here.
+  // I'm assuming its this if statement wrapped with the play stuff. So smth like:
+
+  // if (!soundIsEnabled) {
+  //   soundIsEnabled = true;
+  //   // If sound is not enabled, then enable it.
+  // }
+
+  // if (!soundIsEnabled) return;
+  // SoundX.play();
+  // SoundY.play();
+
+  // You might need to do smth funky and wrap function name or smth, investigate the Week7a.js OnUserClick function.
+  document.onpointerdown = null;
+  run(simplex);
+};

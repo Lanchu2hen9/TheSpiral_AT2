@@ -19,10 +19,18 @@ const ctx = cnv.getContext(`2d`);
 
 //#endregion
 //#region Global Variables:
+let soundIsEnabled = false;
+// Sound is not enabled by default.
+
 let YSoundsStart = [];
 let YSoundsEnd = [];
 let XSoundsStart = [];
 let XSoundsEnd = [];
+
+let XDistance;
+let YDistance;
+let blendX;
+let blendY;
 //#endregion
 
 //#region  Canvas Centre
@@ -81,6 +89,11 @@ function preload() {
   // XSoundsStart is an array that will hold the sound objects
   // attached to the -x-axis of the canvas.
 }
+// You're using an audio element here, to play around so technically speaking you should be able to find the
+// volume attribute connected to the audio element to nudge the volume up and down.
+// See https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/volume (AI recommendated this)
+// Or see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/audio, to investigate the
+// audio element further.
 //#endregion
 
 //#region Randomiser
@@ -135,6 +148,64 @@ function setup() {
 }
 //#endregion
 
+// #region Click Function
+function OnUserClick() {
+  if (!soundIsEnabled) {
+    soundIsEnabled = true;
+  }
+  // If sound is not enabled, then enable it.
+
+  cnv.addEventListener("mousedown", (e) => {
+    let SoundX =
+      XDistance >= 0
+        ? XSoundsStart[Math.floor(Random(0, XSoundsStart.length))]
+        : XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];
+    // 1. Create a variable called SoundX.
+    // 2. if the mouse is larger than or equal to 0, then choose a random sound from the XSoundsStart array.
+    // 3. If not, then choose a random sound from the XSoundsEnd array.
+
+    //Lanchu for "XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];"
+    // Since XSoundsEnd[i], this the identity of an index in the
+    // array
+    // You are basically saying within the identity of the "index", within the []
+    // Pick a random "index" number from 0 to the max length of the array.
+    // Then round that shit down, so that the index is a whole number and doesn't have
+    // floats.
+
+    let SoundY =
+      YDistance >= 0
+        ? YSoundsStart[Math.floor(Random(0, YSoundsStart.length))]
+        : YSoundsEnd[Math.floor(Random(0, YSoundsEnd.length))];
+    // 1. Create a variable called SoundX.
+    // 2. if the mouse is larger than or equal to 0, then choose a random sound
+    // from the XSoundsStart array.
+    // 3. If not, then choose a random sound from the XSoundsEnd array.
+    // //The following code should play the sound
+
+    // YSoundsStart.forEach((sound) => sound.play().catch(() => {}));
+    // YSoundsEnd.forEach((sound) => sound.play().catch(() => {}));
+    // XSoundsStart.forEach((sound) => sound.play().catch(() => {}));
+    // XSoundsEnd.forEach((sound) => sound.play().catch(() => {}));
+
+    const x = e.clientX;
+    const y = e.clientY;
+    console.log("The mouse was clicked on the canvas");
+    console.log("the mouse was clicked at", e.clientX, e.clientY);
+
+    // I was advised by ChatGPT to use to use mouseMove to track the mouse position
+    // in real time, as mousedown only tracks the position/snapshot of the mouse at
+    // point of click.
+
+    if (!soundIsEnabled) return;
+    // This checks if the sound is enabled, if it is it continues the code onto the
+    // next couple of lines. If not the stops the code at line 199.
+
+    SoundX.play();
+    SoundY.play();
+  });
+}
+//#endregion
+
 // #region MouseMove Function
 function MouseTracker() {
   cnv.addEventListener("mousemove", (e) => {
@@ -163,10 +234,10 @@ function MouseTracker() {
     // vertical distance (y-value, CanvasCentreY) and b is the horizontal
     // distance (x-value, CanvasCentreX).
 
-    let XDistance = RelMouseX / CanvasCentreX;
+    XDistance = RelMouseX / CanvasCentreX;
     // Calculates the "percentage"/"fraction" of the x-distance from the
     // centre of the canvas. (0,0)
-    let YDistance = RelMouseY / CanvasCentreY;
+    YDistance = RelMouseY / CanvasCentreY;
     // Calculates the "percentage"/"fraction" of the y-distance from the
     // centre of the canvas. (0,0)
 
@@ -174,46 +245,13 @@ function MouseTracker() {
     // of the canvas is independent of whatever value the width and height
     // of the canvas is.
 
-    let SoundX =
-      XDistance >= 0
-        ? XSoundsStart[Math.floor(Random(0, XSoundsStart.length))]
-        : XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];
-    // 1. Create a variable called SoundX.
-    // 2. if the mouse is larger than or equal to 0, then choose a random sound from the XSoundsStart array.
-    // 3. If not, then choose a random sound from the XSoundsEnd array.
-
-    //Lanchu for "XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];"
-    // Since XSoundsEnd[i], this the identity of an index in the
-    // array
-    // You are basically saying within the identity of the "index", within the []
-    // Pick a random "index" number from 0 to the max length of the array.
-    // Then round that shit down, so that the index is a whole number and doesn't have
-    // floats.
-
-    let SoundY =
-      YDistance >= 0
-        ? YSoundsStart[Math.floor(Random(0, YSoundsStart.length))]
-        : YSoundsEnd[Math.floor(Random(0, YSoundsEnd.length))];
-    // 1. Create a variable called SoundX.
-    // 2. if the mouse is larger than or equal to 0, then choose a random sound
-    // from the XSoundsStart array.
-    // 3. If not, then choose a random sound from the XSoundsEnd array.
-
-    let blendX = Math.abs(XDistance);
+    blendX = Math.abs(XDistance);
     // Creates variable called blendX, and assigning it the absolute value of
     // of XDistance.
 
-    let blendY = Math.abs(YDistance);
+    blendY = Math.abs(YDistance);
     // Creates variable called blendY, and assigning it the absolute value of
     // of Distance.
-
-    SoundX.pause();
-    SoundX.currentTime = 0;
-    SoundX.play();
-
-    SoundY.pause();
-    SoundY.currentTime = 0;
-    SoundY.play();
 
     //  SoundX.volume = blendX;
     //  // The volume of the audio clip is the value of blendX.
@@ -226,26 +264,6 @@ function MouseTracker() {
 
     //  SoundY.play();
     //  // Play the sound object in the SoundX variable.
-  });
-}
-//#endregion
-
-// #region Click Function
-function OnUserClick() {
-  cnv.addEventListener("mousedown", (e) => {
-    YSoundsStart.forEach((sound) => sound.play().catch(() => {}));
-    YSoundsEnd.forEach((sound) => sound.play().catch(() => {}));
-    XSoundsStart.forEach((sound) => sound.play().catch(() => {}));
-    XSoundsEnd.forEach((sound) => sound.play().catch(() => {}));
-
-    const x = e.clientX;
-    const y = e.clientY;
-    console.log("The mouse was clicked on the canvas");
-    console.log("the mouse was clicked at", e.clientX, e.clientY);
-
-    // I was advised by ChatGPT to use to use mouseMove to track the mouse position
-    // in real time, as mousedown only tracks the position/snapshot of the mouse at
-    // point of click.
   });
 }
 //#endregion
