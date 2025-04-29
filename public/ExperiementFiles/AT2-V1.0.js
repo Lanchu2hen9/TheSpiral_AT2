@@ -3,6 +3,8 @@ import SimplexNoise from "https://cdn.jsdelivr.net/npm/simplex-noise@3.0.0/dist/
 const simplex = new SimplexNoise();
 
 const noise = new SimplexNoise();
+
+//#region Global Variables
 let stars = [];
 // Creates an array to store the Star objects.
 
@@ -19,6 +21,7 @@ let StarBrightness = 170;
 
 let FlickerSize = 2;
 // Variable that defines the default flicker size.
+//#endRegion
 
 const cnv = document.getElementById("cnv_element");
 cnv.width = innerWidth;
