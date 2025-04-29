@@ -15,12 +15,30 @@ let IsClicked = false;
 // Defining a boolean variable, to check if the
 // user has clicked on the canvas.
 
+let SoundIsEnabled = false;
+
 let StarBrightness = 170;
 // Variable that defines the default brightness
 // of the stars.
 
 let FlickerSize = 2;
 // Variable that defines the default flicker size.
+
+// let XDistance;
+// let YDistance;
+// let blendX;
+// let blendY;
+
+//#region Canvas Centre:
+let CanvasCentreX = innerWidth / 2;
+// Calculates the "x-coordinate" centre
+// of the canvas.
+
+let CanvasCentreY = innerHeight / 2;
+// Calculates the "y-coordinate" centre
+// of the canvas.
+//#endregion
+
 //#endRegion
 
 const cnv = document.getElementById("cnv_element");
@@ -39,6 +57,59 @@ function run(simplex) {
 }
 
 // Bro you need to slap the preload, and other stuff from Week7a.js for the sound here.
+
+//#region Preload Audio
+function preload() {
+  YSoundsStart = [
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/386067__dudeawesome__shuttle-to-station-sounds-sound-bites.flac"
+    ),
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/386068__dudeawesome__missions-sounds-sound-bites-launch-morse-code-passing-comet.flac"
+    ),
+  ];
+  // YSoundsStart is an array that will hold the sound objects
+  // attached to the +y-axis of the canvas.
+
+  YSoundsEnd = [
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/95822__pixelmasseuse__atlas3q-1fm-16bit.wav"
+    ),
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/59899__robinhood76__00309-crowd-2.wav"
+    ),
+  ];
+  // YSoundsEnd is an array that will hold the sound objects
+  // attached to the -y-axis of the canvas.
+  XSoundsStart = [
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/567994__malg0isx__wolf-howle.wav"
+    ),
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/456123__burghrecords__birds-in-the-forest.wav"
+    ),
+  ];
+
+  // XSoundsStart is an array that will hold the sound objects
+  // attached to the +x-axis of the canvas.
+
+  XSoundsEnd = [
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/756754__newlocknew__ambforst_autumna-quiet-forestwind-in-the-pines-and-birches.wav"
+    ),
+    new Audio(
+      "/ExperiementFiles/audio/ExpAudio/450634__kyles__waves-ocean-crash-on-beach-nearby-wide-big-metallic-sound.flac"
+    ),
+  ];
+  // XSoundsStart is an array that will hold the sound objects
+  // attached to the -x-axis of the canvas.
+}
+// You're using an audio element here, to play around so technically speaking you should be able to find the
+// volume attribute connected to the audio element to nudge the volume up and down.
+// See https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/volume (AI recommendated this)
+// Or see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/audio, to investigate the
+// audio element further.
+//#endregion
 
 //#region Objects:
 
@@ -286,6 +357,7 @@ class LigthningStrikes {
 
 //#region Setup Function
 function setup() {
+  preload();
   OnUserClick();
   for (let i = 0; i < 100; i++) {
     // For one star every time, i interates from
@@ -379,7 +451,7 @@ const draw_frame = (ms) => {
   requestAnimationFrame(draw_frame);
 };
 
-//#region LightningYeeter Function:
+//#region LightningYeeter:
 function LightningYeeter() {
   // requestAnimationFrame(() => LightningYeeter(ctx));
   ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
@@ -391,6 +463,7 @@ function LightningYeeter() {
     if (Zeus[i].isDead()) Zeus.splice(i, 1);
   }
 }
+//#endregion
 
 //#region OnUserClick Function
 function OnUserClick() {
@@ -423,7 +496,6 @@ function OnUserClick() {
   // of the point in which the user clicks, so we might need to use
   //mouseX and mouseY to get the coordinates of the mouse click.
 }
-//#endregion
 //#endregion
 
 onresize = () => {
