@@ -208,6 +208,8 @@ class LigthningStrikes {
 
   createChild() {
     if (this.length > 10 && this.generation < 4) {
+      // Maybe make the lightning longer?
+
       // If the length of the lightning strike
       // is more than 10 pixels, then create a child,
       // stop after the 4th generation is born.
