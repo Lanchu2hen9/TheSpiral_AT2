@@ -138,7 +138,7 @@ class Star {
     ctx.strokeStyle = `rgb(${this.r}, ${this.g}, ${this.b})`;
     // Make the lines drawn be white.
 
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     // The thicccness of the lines drawn is 1.
     ctx.stroke();
     // Defines the colour of the lines drawn.
