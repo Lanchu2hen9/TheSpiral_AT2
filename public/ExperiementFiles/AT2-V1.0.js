@@ -24,10 +24,12 @@ let StarBrightness = 170;
 let FlickerSize = 2;
 // Variable that defines the default flicker size.
 
-// let XDistance;
-// let YDistance;
-// let blendX;
-// let blendY;
+let XDistance = RelMouseX / CanvasCentreX;
+// Calculates the "percentage"/"fraction" of the x-distance from the
+// centre of the canvas. (0,0)
+let YDistance = RelMouseY / CanvasCentreY;
+// Calculates the "percentage"/"fraction" of the y-distance from the
+// centre of the canvas. (0,0)
 
 //#region Canvas Centre:
 let CanvasCentreX = innerWidth / 2;
@@ -366,6 +368,7 @@ function setup() {
     stars.push(new Star());
     // Push the created Star objects into the stars array.
   }
+  MouseTracker();
   requestAnimationFrame(draw_frame);
   // Calls the draw_frame function.
 }
@@ -498,27 +501,93 @@ function OnUserClick() {
 }
 //#endregion
 
+//#region MouseTracker:
+function MouseTracker() {
+  cnv.addEventListener("mousemove", (e) => {
+    const mouseX = e.clientX;
+    // mouseX variable that holds the x-coordinate of the mouse,
+    // relative to the top left corner of the canvas.
+
+    const mouseY = e.clientY;
+    // mouseY variable that holds the y-coordinate of the mouse,
+    // relative to the top left corner of the canvas.
+
+    let RelMouseX = mouseX - CanvasCentreX;
+    // The horizontal distance of the mouse from the relative
+    // to the centre of the canvas.
+
+    let RelMouseY = mouseY - CanvasCentreY;
+    // The vertical distance of the mouse from the relative
+    // to the centre of the canvas.
+
+    // Flipping the "positive" y-axis of the Canvas API
+    // so that the "positive" y-axis, is UP.
+    // Ditto for the x-axis.
+
+    let MaxDistance = Math.sqrt(CanvasCentreX ** 2 + CanvasCentreY ** 2);
+    // Essentially pythagorean theorem. Where in a^2 + b^2 = c^2, a is the
+    // vertical distance (y-value, CanvasCentreY) and b is the horizontal
+    // distance (x-value, CanvasCentreX).
+
+    // This makes it so that the distance from the mouse from the centre
+    // of the canvas is independent of whatever value the width and height
+    // of the canvas is.
+
+    let blendX = Math.abs(XDistance);
+    // Creates variable called blendX, and assigning it the absolute value of
+    // of XDistance.
+
+    let blendY = Math.abs(YDistance);
+    // Creates variable called blendY, and assigning it the absolute value of
+    // of Distance.
+  });
+}
+//#endregion
+
+//#region SoundEnabler:
+
+function SoundEnabler() {
+  let SoundX =
+    XDistance >= 0
+      ? XSoundsStart[Math.floor(Random(0, XSoundsStart.length))]
+      : XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];
+  // 1. Create a variable called SoundX.
+  // 2. if the mouse is larger than or equal to 0, then choose a random sound from the XSoundsStart array.
+  // 3. If not, then choose a random sound from the XSoundsEnd array.
+
+  let SoundY =
+    YDistance >= 0
+      ? YSoundsStart[Math.floor(Random(0, YSoundsStart.length))]
+      : YSoundsEnd[Math.floor(Random(0, YSoundsEnd.length))];
+  // 1. Create a variable called SoundX.
+  // 2. if the mouse is larger than or equal to 0, then choose a random sound
+  // from the XSoundsStart array.
+  // 3. If not, then choose a random sound from the XSoundsEnd array.
+  // //The following code should play the sound
+
+  if (!soundIsEnabled) {
+    soundIsEnabled = true;
+  }
+  if (!soundIsEnabled) return;
+  // This checks if the sound is enabled, if it is it continues the code
+  // if not it stops the code.
+  SoundX.play();
+  SoundY.play();
+}
+
 onresize = () => {
   cnv.width = innerWidth;
   cnv.height = innerHeight;
+
+  CanvasCentreX = innerWidth / 2;
+  CanvasCentreY = innerHeight / 2;
 };
 
 document.onpointerdown = () => {
   const div = document.getElementById("start");
   div.remove();
   // Sound play logic here.
-  // I'm assuming its this if statement wrapped with the play stuff. So smth like:
-
-  // if (!soundIsEnabled) {
-  //   soundIsEnabled = true;
-  //   // If sound is not enabled, then enable it.
-  // }
-
-  // if (!soundIsEnabled) return;
-  // SoundX.play();
-  // SoundY.play();
-
-  // You might need to do smth funky and wrap function name or smth, investigate the Week7a.js OnUserClick function.
+  SoundEnabler();
   document.onpointerdown = null;
   run(simplex);
 };
