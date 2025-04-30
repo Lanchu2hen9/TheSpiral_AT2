@@ -24,6 +24,9 @@ let StarBrightness = 170;
 let FlickerSize = 2;
 // Variable that defines the default flicker size.
 
+let RelMouseX = 0;
+let RelMouseY = 0;
+
 let XDistance = RelMouseX / CanvasCentreX;
 // Calculates the "percentage"/"fraction" of the x-distance from the
 // centre of the canvas. (0,0)
@@ -512,11 +515,11 @@ function MouseTracker() {
     // mouseY variable that holds the y-coordinate of the mouse,
     // relative to the top left corner of the canvas.
 
-    let RelMouseX = mouseX - CanvasCentreX;
+    RelMouseX = mouseX - CanvasCentreX;
     // The horizontal distance of the mouse from the relative
     // to the centre of the canvas.
 
-    let RelMouseY = mouseY - CanvasCentreY;
+    RelMouseY = mouseY - CanvasCentreY;
     // The vertical distance of the mouse from the relative
     // to the centre of the canvas.
 
