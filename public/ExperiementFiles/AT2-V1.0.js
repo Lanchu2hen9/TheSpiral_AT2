@@ -19,21 +19,28 @@ let FlickerSize = 2;
 // Variable that defines the default flicker size.
 
 let IsClicked = false;
+let soundIsEnabled = false;
 
 let YSoundsStart = [];
 let YSoundsEnd = [];
 let XSoundsStart = [];
 let XSoundsEnd = [];
 
-//#region Canvas Centre:
-// let CanvasCentreX = innerWidth / 2;
-// // Calculates the "x-coordinate" centre
-// // of the canvas.
+let RelMouseX = 0;
+let RelMouseY = 0;
 
-// let CanvasCentreY = innerHeight / 2;
-// // Calculates the "y-coordinate" centre
-// // of the canvas.
-//#endregion
+let XDistance = 0;
+let YDistance = 0;
+
+//#region Canvas Centre:
+let CanvasCentreX = innerWidth / 2;
+// Calculates the "x-coordinate" centre
+// of the canvas.
+
+let CanvasCentreY = innerHeight / 2;
+// Calculates the "y-coordinate" centre
+// of the canvas.
+// #endregion
 
 //#endRegion
 
@@ -360,7 +367,7 @@ function setup() {
     stars.push(new Star());
     // Push the created Star objects into the stars array.
   }
-  // MouseTracker();
+  MouseTracker();
   requestAnimationFrame(draw_frame);
   // Calls the draw_frame function.
 }
@@ -462,6 +469,10 @@ function LightningYeeter() {
 
 //#region OnUserClick Function
 function OnUserClick() {
+  if (!soundIsEnabled) {
+    soundIsEnabled = true;
+  }
+
   cnv.addEventListener("mousedown", (e) => {
     const x = e.clientX;
     const y = e.clientY;
@@ -481,6 +492,39 @@ function OnUserClick() {
       StarBrightness = 170;
       FlickerSize = 2;
     }, 1000);
+
+    let SoundX =
+      XDistance >= 0
+        ? XSoundsStart[Math.floor(Random(0, XSoundsStart.length))]
+        : XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];
+    // 1. Create a variable called SoundX.
+    // 2. if the mouse is larger than or equal to 0, then choose a random sound from the XSoundsStart array.
+    // 3. If not, then choose a random sound from the XSoundsEnd array.
+
+    //Lanchu for "XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];"
+    // Since XSoundsEnd[i], this the identity of an index in the
+    // array
+    // You are basically saying within the identity of the "index", within the []
+    // Pick a random "index" number from 0 to the max length of the array.
+    // Then round that shit down, so that the index is a whole number and doesn't have
+    // floats.
+
+    let SoundY =
+      YDistance >= 0
+        ? YSoundsStart[Math.floor(Random(0, YSoundsStart.length))]
+        : YSoundsEnd[Math.floor(Random(0, YSoundsEnd.length))];
+    // 1. Create a variable called SoundX.
+    // 2. if the mouse is larger than or equal to 0, then choose a random sound
+    // from the XSoundsStart array.
+    // 3. If not, then choose a random sound from the XSoundsEnd array.
+    // //The following code should play the sound
+
+    if (!soundIsEnabled) return;
+    // This checks if the sound is enabled, if it is it continues the code onto the
+    // next couple of lines. If not the stops the code at line 199.
+
+    SoundX.play();
+    SoundY.play();
   });
 
   // Within this instance method, we want to have it
@@ -495,13 +539,55 @@ function OnUserClick() {
 
 //#region MouseTracker:
 function MouseTracker() {
-  cnv.addEventListener("mousemove", (e) => {});
+  cnv.addEventListener("mousemove", (e) => {
+    const mouseX = e.clientX;
+    // mouseX variable that holds the x-coordinate of the mouse,
+    // relative to the top left corner of the canvas.
+
+    const mouseY = e.clientY;
+    // mouseY variable that holds the y-coordinate of the mouse,
+    // relative to the top left corner of the canvas.
+
+    RelMouseX = mouseX - CanvasCentreX;
+    // The horizontal distance of the mouse from the relative
+    // to the centre of the canvas.
+
+    RelMouseY = mouseY - CanvasCentreY;
+    // The vertical distance of the mouse from the relative
+    // to the centre of the canvas.
+
+    // Flipping the "positive" y-axis of the Canvas API
+    // so that the "positive" y-axis, is UP.
+    // Ditto for the x-axis.
+
+    let MaxDistance = Math.sqrt(CanvasCentreX ** 2 + CanvasCentreY ** 2);
+    // Essentially pythagorean theorem. Where in a^2 + b^2 = c^2, a is the
+    // vertical distance (y-value, CanvasCentreY) and b is the horizontal
+    // distance (x-value, CanvasCentreX).
+
+    XDistance = RelMouseX / CanvasCentreX;
+    // Calculates the "percentage"/"fraction" of the x-distance from the
+    // centre of the canvas. (0,0)
+    YDistance = RelMouseY / CanvasCentreY;
+    // Calculates the "percentage"/"fraction" of the y-distance from the
+    // centre of the canvas. (0,0)
+
+    // This makes it so that the distance from the mouse from the centre
+    // of the canvas is independent of whatever value the width and height
+    // of the canvas is.
+
+    blendX = Math.abs(XDistance);
+    // Creates variable called blendX, and assigning it the absolute value of
+    // of XDistance.
+
+    blendY = Math.abs(YDistance);
+    // Creates variable called blendY, and assigning it the absolute value of
+    // of Distance.
+  });
 }
 //#endregion
 
 //#region SoundEnabler:
-
-function SoundEnabler() {}
 
 onresize = () => {
   cnv.width = innerWidth;
@@ -515,7 +601,7 @@ document.onpointerdown = () => {
   const div = document.getElementById("start");
   div.remove();
   // Sound play logic here.
-  // SoundEnabler();
+  OnUserClick();
   document.onpointerdown = null;
   run(simplex);
 };
