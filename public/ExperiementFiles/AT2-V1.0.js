@@ -32,6 +32,9 @@ let RelMouseY = 0;
 let XDistance = 0;
 let YDistance = 0;
 
+let blendX = 0;
+let blendY = 0;
+
 //#region Canvas Centre:
 let CanvasCentreX = innerWidth / 2;
 // Calculates the "x-coordinate" centre
@@ -52,8 +55,6 @@ const ctx = cnv.getContext("2d");
 
 // AT2-V1.0.js
 function run(simplex) {
-  console.log(simplex.noise2D(0.1, 0.2)); // you can now use it here!
-
   document.body.style.margin = "0";
   document.body.style.overflow = "hidden";
   setup();
@@ -64,45 +65,37 @@ function run(simplex) {
 //#region Preload Audio
 function preload() {
   YSoundsStart = [
-    new Audio(
-      "/ExperiementFiles/audio/ExpAudio/386067__dudeawesome__shuttle-to-station-sounds-sound-bites.flac"
-    ),
-    new Audio(
-      "/ExperiementFiles/audio/ExpAudio/386068__dudeawesome__missions-sounds-sound-bites-launch-morse-code-passing-comet.flac"
-    ),
+    new Audio("/ExperiementFiles/SoundA.wav"),
+    // new Audio(
+    //   "/ExperiementFiles/audio/ExpAudio/386068__dudeawesome__missions-sounds-sound-bites-launch-morse-code-passing-comet.flac"
+    // ),
   ];
   // YSoundsStart is an array that will hold the sound objects
   // attached to the +y-axis of the canvas.
 
   YSoundsEnd = [
-    new Audio(
-      "/ExperiementFiles/audio/ExpAudio/95822__pixelmasseuse__atlas3q-1fm-16bit.wav"
-    ),
-    new Audio(
-      "/ExperiementFiles/audio/ExpAudio/59899__robinhood76__00309-crowd-2.wav"
-    ),
+    // new Audio(
+    //   "/ExperiementFiles/audio/ExpAudio/95822__pixelmasseuse__atlas3q-1fm-16bit.wav"
+    // ),
+    new Audio("/ExperiementFiles/SoundB.wav"),
   ];
   // YSoundsEnd is an array that will hold the sound objects
   // attached to the -y-axis of the canvas.
   XSoundsStart = [
-    new Audio(
-      "/ExperiementFiles/audio/ExpAudio/567994__malg0isx__wolf-howle.wav"
-    ),
-    new Audio(
-      "/ExperiementFiles/audio/ExpAudio/456123__burghrecords__birds-in-the-forest.wav"
-    ),
+    new Audio("/ExperiementFiles/SoundC.wav"),
+    // new Audio(
+    //   "/ExperiementFiles/audio/ExpAudio/456123__burghrecords__birds-in-the-forest.wav"
+    // ),
   ];
 
   // XSoundsStart is an array that will hold the sound objects
   // attached to the +x-axis of the canvas.
 
   XSoundsEnd = [
-    new Audio(
-      "/ExperiementFiles/audio/ExpAudio/756754__newlocknew__ambforst_autumna-quiet-forestwind-in-the-pines-and-birches.wav"
-    ),
-    new Audio(
-      "/ExperiementFiles/audio/ExpAudio/450634__kyles__waves-ocean-crash-on-beach-nearby-wide-big-metallic-sound.flac"
-    ),
+    // new Audio(
+    //   "/ExperiementFiles/audio/ExpAudio/756754__newlocknew__ambforst_autumna-quiet-forestwind-in-the-pines-and-birches.wav"
+    // ),
+    new Audio("/ExperiementFiles/SoundD.wav"),
   ];
   // XSoundsStart is an array that will hold the sound objects
   // attached to the -x-axis of the canvas.
@@ -493,38 +486,31 @@ function OnUserClick() {
       FlickerSize = 2;
     }, 1000);
 
-    let SoundX =
-      XDistance >= 0
-        ? XSoundsStart[Math.floor(Random(0, XSoundsStart.length))]
-        : XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];
-    // 1. Create a variable called SoundX.
-    // 2. if the mouse is larger than or equal to 0, then choose a random sound from the XSoundsStart array.
-    // 3. If not, then choose a random sound from the XSoundsEnd array.
+    setTimeout(() => {
+      let SoundX =
+        XDistance >= 0
+          ? XSoundsStart[Math.floor(Random(0, XSoundsStart.length))]
+          : XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];
+      // 1. Create a variable called SoundX.
+      // 2. if the mouse is larger than or equal to 0, then choose a random sound from the XSoundsStart array.
+      // 3. If not, then choose a random sound from the XSoundsEnd array.
 
-    //Lanchu for "XSoundsEnd[Math.floor(Random(0, XSoundsEnd.length))];"
-    // Since XSoundsEnd[i], this the identity of an index in the
-    // array
-    // You are basically saying within the identity of the "index", within the []
-    // Pick a random "index" number from 0 to the max length of the array.
-    // Then round that shit down, so that the index is a whole number and doesn't have
-    // floats.
+      let SoundY =
+        YDistance >= 0
+          ? YSoundsStart[Math.floor(Random(0, YSoundsStart.length))]
+          : YSoundsEnd[Math.floor(Random(0, YSoundsEnd.length))];
+      // 1. Create a variable called SoundX.
+      // 2. if the mouse is larger than or equal to 0, then choose a random sound
+      // from the XSoundsStart array.
+      // 3. If not, then choose a random sound from the XSoundsEnd array.
+      // //The following code should play the sound
 
-    let SoundY =
-      YDistance >= 0
-        ? YSoundsStart[Math.floor(Random(0, YSoundsStart.length))]
-        : YSoundsEnd[Math.floor(Random(0, YSoundsEnd.length))];
-    // 1. Create a variable called SoundX.
-    // 2. if the mouse is larger than or equal to 0, then choose a random sound
-    // from the XSoundsStart array.
-    // 3. If not, then choose a random sound from the XSoundsEnd array.
-    // //The following code should play the sound
-
-    if (!soundIsEnabled) return;
-    // This checks if the sound is enabled, if it is it continues the code onto the
-    // next couple of lines. If not the stops the code at line 199.
-
-    SoundX.play();
-    SoundY.play();
+      if (!soundIsEnabled) return;
+      // This checks if the sound is enabled, if it is it continues the code onto the
+      // next couple of lines. If not the stops the code at line 199.
+      SoundX.play();
+      SoundY.play();
+    }, 30);
   });
 
   // Within this instance method, we want to have it
