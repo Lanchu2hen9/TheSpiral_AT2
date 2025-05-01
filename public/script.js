@@ -52,7 +52,6 @@ const draw_frame = (ms) => {
 
   // Display the time in seconds in the console (for debugging)
   const seconds = ms / 1000;
-  console.log(seconds.toFixed(2));
 
   // Draw each button
   ctx.fillStyle = "black";
