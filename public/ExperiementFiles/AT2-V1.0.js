@@ -338,7 +338,8 @@ class LigthningStrikes {
         this.generation + 1
         // Adds a new generation.
       );
-      // Recursively creates a child lightning strike.
+      // This instance method creates a new LighningStrike object and assigns it
+      // the this.child instance variable.
     }
   }
   update() {
@@ -383,7 +384,7 @@ class LigthningStrikes {
     //Draws the stroke of the ligthningStrike shape.
 
     if (this.child) this.child.draw(ctx);
-    // Draws the child lightning strike rescursively.
+    // if the current branch as a child, then draw a child.
 
     ctx.restore();
     // Restores the saved Canvas state as indicated previous in
