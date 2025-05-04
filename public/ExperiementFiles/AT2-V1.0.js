@@ -583,7 +583,7 @@ function OnUserClick() {
 
       FlickerSize = 2;
       // Set the FlickerSize of the Star Object to 2.
-    }, 60000);
+    }, 4000);
 
     // Creates 15 Ligthningstrikes
     for (let i = 0; i < 15; i++) {
