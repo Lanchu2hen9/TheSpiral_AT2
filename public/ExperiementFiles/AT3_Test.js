@@ -128,51 +128,83 @@ document.addEventListener("mousemove", (e) => {
   }
 });
 
-// --- Optional: Basic Touchscreen Support (for the "escape" logic) ---
-// Getting smooth, precise touch interactions can be a bit more complex,
-// but this gives you a starting point for the button to react to fingers.
-document.addEventListener(
-  "touchmove",
-  (e) => {
-    if (e.touches.length > 0) {
-      const touch = e.touches[0]; // Get the first touch point
-      const buttonRect = muteButton.getBoundingClientRect();
-      const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-      const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+// document.addEventListener("mousemove", (e) => {
 
-      const touchX = touch.clientX;
-      const touchY = touch.clientY;
+//     const buttonRect = muteButton.getBoundingClientRect();
+//   // Gets the button's 2D hitbox.
+//   // BoundingClientRect contains the values of the btn's
+//   // top, left, width, and height. It also includes the
+//   // padding, border/outline of the button.
 
-      const FingerSneakTouch = 110; // A bit larger for finger
-      const distance = Math.sqrt(
-        Math.pow(touchX - buttonCenterX, 2) +
-          Math.pow(touchY - buttonCenterY, 2)
-      );
+//   const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+//   // The horizontal centre of the button is the left side of the button
+//   // plus the width of the button divided by 2.
 
-      if (distance < FingerSneakTouch) {
-        let newX, newY;
-        let attempts = 0;
-        const maxAttempts = 50;
+//   const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+//   // The vertical centre of the button is the top side of the button
+//   // plus the height of the button divided by 2.
 
-        do {
-          newX = Math.random() * (innerWidth - buttonRect.width);
-          newY = Math.random() * (innerHeight - buttonRect.height);
+//   // Get the current mouse position
+//   const mouseX = e.clientX;
+//   const mouseY = e.clientY;
 
-          const newDistance = Math.sqrt(
-            Math.pow(touchX - (newX + buttonRect.width / 2), 2) +
-              Math.pow(touchY - (newY + buttonRect.height / 2), 2)
-          );
-          attempts++;
-          if (newDistance > FingerSneakTouch * 2 || attempts > maxAttempts) {
-            break;
-          }
-        } while (true);
+//   // Define how close the mouse can get before the button runs
+//   const MouseSneak = 90; // Pixels
 
-        muteButton.style.left = `${newX}px`;
-        muteButton.style.top = `${newY}px`;
-      }
-    }
-  },
-  { passive: false }
-); // Use { passive: false } to allow preventing default if needed,
-// though not strictly necessary for this particular effect.
+//   const distance = Math.sqrt(
+//     Math.pow(mouseX - buttonCenterX, 2) + Math.pow(mouseY - buttonCenterY, 2)
+//   );
+
+//   if (distance < MouseSneak) {
+//   }
+
+// });
+
+// // --- Optional: Basic Touchscreen Support (for the "escape" logic) ---
+// // Getting smooth, precise touch interactions can be a bit more complex,
+// // but this gives you a starting point for the button to react to fingers.
+// document.addEventListener(
+//   "touchmove",
+//   (e) => {
+//     if (e.touches.length > 0) {
+//       const touch = e.touches[0]; // Get the first touch point
+//       const buttonRect = muteButton.getBoundingClientRect();
+//       const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+//       const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+
+//       const touchX = touch.clientX;
+//       const touchY = touch.clientY;
+
+//       const FingerSneakTouch = 110; // A bit larger for finger
+//       const distance = Math.sqrt(
+//         Math.pow(touchX - buttonCenterX, 2) +
+//           Math.pow(touchY - buttonCenterY, 2)
+//       );
+
+//       if (distance < FingerSneakTouch) {
+//         let newX, newY;
+//         let attempts = 0;
+//         const maxAttempts = 50;
+
+//         do {
+//           newX = Math.random() * (innerWidth - buttonRect.width);
+//           newY = Math.random() * (innerHeight - buttonRect.height);
+
+//           const newDistance = Math.sqrt(
+//             Math.pow(touchX - (newX + buttonRect.width / 2), 2) +
+//               Math.pow(touchY - (newY + buttonRect.height / 2), 2)
+//           );
+//           attempts++;
+//           if (newDistance > FingerSneakTouch * 2 || attempts > maxAttempts) {
+//             break;
+//           }
+//         } while (true);
+
+//         muteButton.style.left = `${newX}px`;
+//         muteButton.style.top = `${newY}px`;
+//       }
+//     }
+//   },
+//   { passive: false }
+// ); // Use { passive: false } to allow preventing default if needed,
+// // though not strictly necessary for this particular effect.
