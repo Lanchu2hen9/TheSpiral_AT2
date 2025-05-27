@@ -48,7 +48,7 @@ const buttons = [
     y: 100,
     width: 300,
     height: 40,
-    path: "#", // Path for button 3
+    path: "/ExperiementFiles/AT3_Test.html", // Path for button 3
   },
 ];
 
