@@ -98,6 +98,8 @@ document.addEventListener("mousemove", (e) => {
   // If the mouse is too close, calculate a new random position
   if (distance < MouseSneak) {
     let newX, newY;
+    // newX and newY is the new X and Y coordinates for the buttons to jump to.
+
     let attempts = 0;
     const maxAttempts = 50; // Prevent infinite loop if it gets stuck in a corner
 
