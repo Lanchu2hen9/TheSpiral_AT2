@@ -84,9 +84,8 @@ document.addEventListener("mousemove", (e) => {
         Math.pow(mouseX - (newX + buttonRect.width / 2), 2) +
           Math.pow(mouseY - (newY + buttonRect.height / 2), 2)
       );
-      if (newDistance > MouseSneak * 2) {
+      if (newDistance > MouseSneak * 9) {
         //Controls how fast the button runs away from the mouse.
-        console.log("The button has found a good position.");
         break;
       }
       muteButton.style.left = `${newX}px`;
