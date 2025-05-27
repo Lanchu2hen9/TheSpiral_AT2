@@ -46,11 +46,11 @@ muteButton.addEventListener("click", () => {
   isMuted = !isMuted; // Toggle the mute state
   if (isMuted) {
     console.log("MIC MUTED! (You caught the elusive button! ヾ(≧▽≦*)o)");
-    muteButton.textContent = "Unmute Me! :O";
+    muteButton.textContent = ":O";
     // *** Future WebRTC step: Call a function like `toggleWebRtcMute(true)` here ***
   } else {
     console.log("MIC UNMUTED! (Let's make some noise! (b ᵔ▽ᵔ)b)");
-    muteButton.textContent = "CatchMe! :P";
+    muteButton.textContent = ":P";
     // *** Future WebRTC step: Call a function like `toggleWebRtcMute(false)` here ***
   }
   // You could also reset its position to the center after being caught,
@@ -68,6 +68,7 @@ document.addEventListener("mousemove", (e) => {
   const mouseY = e.clientY;
 
   const MouseSneak = 90;
+  const EdgePadding = 35;
 
   const distance = Math.sqrt(
     Math.pow(mouseX - buttonCenterX, 2) + Math.pow(mouseY - buttonCenterY, 2)
@@ -78,8 +79,13 @@ document.addEventListener("mousemove", (e) => {
     let newY;
 
     for (let i = 0; i < 50; i++) {
-      newX = Math.random() * (innerWidth - buttonRect.width);
-      newY = Math.random() * (innerHeight - buttonRect.height);
+      newX =
+        EdgePadding +
+        Math.random() * (innerWidth - 2 * EdgePadding - buttonRect.width);
+      newY =
+        EdgePadding +
+        Math.random() * (innerHeight - 2 * EdgePadding - buttonRect.height);
+
       const newDistance = Math.sqrt(
         Math.pow(mouseX - (newX + buttonRect.width / 2), 2) +
           Math.pow(mouseY - (newY + buttonRect.height / 2), 2)
