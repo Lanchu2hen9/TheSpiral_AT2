@@ -57,108 +57,43 @@ muteButton.addEventListener("click", () => {
   // or temporarily disable its movement. For now, it just keeps running.
 });
 
-// 3. Make the button run away when the mouse gets close
 document.addEventListener("mousemove", (e) => {
   const buttonRect = muteButton.getBoundingClientRect();
-  // Gets the button's 2D hitbox.
-  // BoundingClientRect contains the values of the btn's
-  // top, left, width, and height. It also includes the
-  // padding, border/outline of the button.
 
   const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-  // The horizontal centre of the button is the left side of the button
-  // plus the width of the button divided by 2.
 
   const buttonCenterY = buttonRect.top + buttonRect.height / 2;
-  // The vertical centre of the button is the top side of the button
-  // plus the height of the button divided by 2.
 
-  // Get the current mouse position
   const mouseX = e.clientX;
   const mouseY = e.clientY;
 
-  // Define how close the mouse can get before the button runs
-  const MouseSneak = 90; // Pixels
+  const MouseSneak = 90;
 
   const distance = Math.sqrt(
     Math.pow(mouseX - buttonCenterX, 2) + Math.pow(mouseY - buttonCenterY, 2)
   );
-  //Using the Pythagorean theorem to calculate the distance b/w the mouse
-  // and the centre of the button.
 
-  // So the coordinates of the mouse is (mouseX, mouseY)
-  // and the coordinates of the button's center is (buttonCenterX, buttonCenterY).
-
-  // So (mouseX - buttonCentreX)² + (mouseY - buttonCentreY)² = const distance²
-  // Where distance = (the distance between the mouse and the button's center)²
-
-  // So to get the direct distance between the mouse and the button's center, we do:
-  // const distance = √(mouseX - buttonCenterX)² + (mouseY - buttonCenterY)²
-
-  // If the mouse is too close, calculate a new random position
   if (distance < MouseSneak) {
-    let newX, newY;
-    // newX and newY is the new X and Y coordinates for the buttons to jump to.
+    let newX;
+    let newY;
 
-    let attempts = 0;
-    const maxAttempts = 50; // Prevent infinite loop if it gets stuck in a corner
-
-    // Loop to find a new position that is *far enough* from the mouse
-    do {
-      // Generate random coordinates within the window boundaries
+    for (let i = 0; i < 50; i++) {
       newX = Math.random() * (innerWidth - buttonRect.width);
       newY = Math.random() * (innerHeight - buttonRect.height);
-
-      // Calculate the distance from the mouse to this *new potential position*
       const newDistance = Math.sqrt(
         Math.pow(mouseX - (newX + buttonRect.width / 2), 2) +
           Math.pow(mouseY - (newY + buttonRect.height / 2), 2)
       );
-      attempts++;
-      // If the new position is far enough, or we've tried too many times, break
-      if (newDistance > MouseSneak * 2 || attempts > maxAttempts) {
-        // Make it jump further away
+      if (newDistance > MouseSneak * 2) {
+        //Controls how fast the button runs away from the mouse.
+        console.log("The button has found a good position.");
         break;
       }
-    } while (true); // Keep trying until a good spot is found or attempts run out
-
-    // Apply the new position to the button's style
-    muteButton.style.left = `${newX}px`;
-    muteButton.style.top = `${newY}px`;
+      muteButton.style.left = `${newX}px`;
+      muteButton.style.top = `${newY}px`;
+    }
   }
 });
-
-// document.addEventListener("mousemove", (e) => {
-
-//     const buttonRect = muteButton.getBoundingClientRect();
-//   // Gets the button's 2D hitbox.
-//   // BoundingClientRect contains the values of the btn's
-//   // top, left, width, and height. It also includes the
-//   // padding, border/outline of the button.
-
-//   const buttonCenterX = buttonRect.left + buttonRect.width / 2;
-//   // The horizontal centre of the button is the left side of the button
-//   // plus the width of the button divided by 2.
-
-//   const buttonCenterY = buttonRect.top + buttonRect.height / 2;
-//   // The vertical centre of the button is the top side of the button
-//   // plus the height of the button divided by 2.
-
-//   // Get the current mouse position
-//   const mouseX = e.clientX;
-//   const mouseY = e.clientY;
-
-//   // Define how close the mouse can get before the button runs
-//   const MouseSneak = 90; // Pixels
-
-//   const distance = Math.sqrt(
-//     Math.pow(mouseX - buttonCenterX, 2) + Math.pow(mouseY - buttonCenterY, 2)
-//   );
-
-//   if (distance < MouseSneak) {
-//   }
-
-// });
 
 // // --- Optional: Basic Touchscreen Support (for the "escape" logic) ---
 // // Getting smooth, precise touch interactions can be a bit more complex,
