@@ -27,18 +27,16 @@ onresize = () => {
 // --- Mute Button "Run Away" Logic Starts Here ---
 
 const muteButton = document.getElementById("MuteButton");
+// Gets the button element by its ID tag from the HTML.
 
-// 1. Give the button a style so we can move it
-muteButton.style.position = "absolute"; // This is crucial for controlling its position
-muteButton.style.left = "50%"; // Start roughly in the center horizontal
-muteButton.style.top = "50%"; // Start roughly in the center vertical
-// This helps center it perfectly, adjusting for the button's own size
+muteButton.style.position = "absolute";
+// Positions the button absolutely in relation to the window iteslf.
+
+//Starting point position for the button.
+muteButton.style.left = "50%";
+muteButton.style.top = "50%";
+
 muteButton.style.transform = "translate(-50%, -50%)";
-// Add a smooth transition so it slides, rather than jumping
-muteButton.style.transition = "all 0.3s ease-out";
-muteButton.style.padding = "15px 30px"; // Make it a bit bigger/easier to interact with
-muteButton.style.fontSize = "1.2em";
-muteButton.style.cursor = "pointer"; // Make it clear it's clickable
 
 // Variable to track mute state (we'll connect this to WebRTC later)
 let isMuted = false;
@@ -61,25 +59,44 @@ muteButton.addEventListener("click", () => {
 
 // 3. Make the button run away when the mouse gets close
 document.addEventListener("mousemove", (e) => {
-  // Get the button's exact position and size on the screen
   const buttonRect = muteButton.getBoundingClientRect();
+  // Gets the button's 2D hitbox.
+  // BoundingClientRect contains the values of the btn's
+  // top, left, width, and height. It also includes the
+  // padding, border/outline of the button.
+
   const buttonCenterX = buttonRect.left + buttonRect.width / 2;
+  // The horizontal centre of the button is the left side of the button
+  // plus the width of the button divided by 2.
+
   const buttonCenterY = buttonRect.top + buttonRect.height / 2;
+  // The vertical centre of the button is the top side of the button
+  // plus the height of the button divided by 2.
 
   // Get the current mouse position
   const mouseX = e.clientX;
   const mouseY = e.clientY;
 
   // Define how close the mouse can get before the button runs
-  const safeDistance = 120; // Pixels
+  const MouseSneak = 90; // Pixels
 
-  // Calculate the distance between the mouse and the button's center
   const distance = Math.sqrt(
     Math.pow(mouseX - buttonCenterX, 2) + Math.pow(mouseY - buttonCenterY, 2)
   );
+  //Using the Pythagorean theorem to calculate the distance b/w the mouse
+  // and the centre of the button.
+
+  // So the coordinates of the mouse is (mouseX, mouseY)
+  // and the coordinates of the button's center is (buttonCenterX, buttonCenterY).
+
+  // So (mouseX - buttonCentreX)² + (mouseY - buttonCentreY)² = const distance²
+  // Where distance = (the distance between the mouse and the button's center)²
+
+  // So to get the direct distance between the mouse and the button's center, we do:
+  // const distance = √(mouseX - buttonCenterX)² + (mouseY - buttonCenterY)²
 
   // If the mouse is too close, calculate a new random position
-  if (distance < safeDistance) {
+  if (distance < MouseSneak) {
     let newX, newY;
     let attempts = 0;
     const maxAttempts = 50; // Prevent infinite loop if it gets stuck in a corner
@@ -97,7 +114,7 @@ document.addEventListener("mousemove", (e) => {
       );
       attempts++;
       // If the new position is far enough, or we've tried too many times, break
-      if (newDistance > safeDistance * 2 || attempts > maxAttempts) {
+      if (newDistance > MouseSneak * 2 || attempts > maxAttempts) {
         // Make it jump further away
         break;
       }
@@ -124,13 +141,13 @@ document.addEventListener(
       const touchX = touch.clientX;
       const touchY = touch.clientY;
 
-      const safeDistanceTouch = 150; // A bit larger for finger
+      const FingerSneakTouch = 110; // A bit larger for finger
       const distance = Math.sqrt(
         Math.pow(touchX - buttonCenterX, 2) +
           Math.pow(touchY - buttonCenterY, 2)
       );
 
-      if (distance < safeDistanceTouch) {
+      if (distance < FingerSneakTouch) {
         let newX, newY;
         let attempts = 0;
         const maxAttempts = 50;
@@ -144,7 +161,7 @@ document.addEventListener(
               Math.pow(touchY - (newY + buttonRect.height / 2), 2)
           );
           attempts++;
-          if (newDistance > safeDistanceTouch * 2 || attempts > maxAttempts) {
+          if (newDistance > FingerSneakTouch * 2 || attempts > maxAttempts) {
             break;
           }
         } while (true);
